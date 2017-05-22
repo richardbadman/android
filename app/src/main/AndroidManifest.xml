@@ -2,9 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.richard.nfchub">
 
-    <uses-permission android:name="android.permission.NFC"/>
-    <uses-sdk android:minSdkVersion="10"/>
-    <uses-feature android:name="android.hardware.nfc" android:required="true"/>
+    <uses-sdk android:minSdkVersion="10" />
+
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ReadActivity" />
+        <activity android:name=".CardActivity" />
+        <activity android:name=".WriteActivity"></activity>
     </application>
 
 </manifest>
