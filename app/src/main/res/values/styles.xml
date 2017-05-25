@@ -1,11 +1,61 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
+    <!--</style>-->
+
+    <!--<style name="MyActionBar" parent="android:Widget.ActionBar">-->
+        <!--<item name="android:background">@null</item>-->
+        <!--<item name="android:displayOptions">showHome|showTitle</item>-->
+        <!--<item name="android:titleTextStyle">@style/ActionBarStyle.Transparent.TitleTextStyle</item>-->
+    <!--</style>-->
+
+    <!--<style name="ActionBarStyle.Transparent.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">-->
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    <!--</style>-->
+
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+
+        <item name="colorAccent">@color/kuler3</item>
+
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:titleTextStyle">@style/Theme.YourTheme.Styled.ActionBar.TitleTextStyle</item>
+        <!-- Support library compatibility -->
+        <item name="background">@color/transparent</item>
+        <item name="titleTextStyle">@style/Theme.YourTheme.Styled.ActionBar.TitleTextStyle</item>
+
+    </style>
+
+
+    <style name="Theme.YourTheme.Styled.ActionBar.TitleTextStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="EditTextBottomLine" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/kuler1</item>
+        <item name="colorControlActivated">@color/kuler1</item>
+        <item name="colorControlHighlight">#000000</item>
     </style>
 
 </resources>

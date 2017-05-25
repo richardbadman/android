@@ -1,18 +1,29 @@
 package com.example.richard.nfchub;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.nfc.Tag;
+import android.os.Build;
+import android.os.Message;
+import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +33,9 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
 
+import static android.R.attr.handle;
 import static java.lang.Math.toIntExact;
 
 public class CardActivity extends AppCompatActivity {
@@ -30,28 +43,92 @@ public class CardActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "SP_Cards";
 
     private List<Tag> tags = new ArrayList<>();
-    private List<String> cards = new ArrayList<>();
+    private ArrayList<String> cards = new ArrayList<>();
 
     private ListView list;
     private ArrayAdapter<String> adapter;
+    private customAdapter custom;
 
+    private ProgressDialog progress;
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("My cards");
+
+        View layout = findViewById(R.id.activity_card);
+
+        GradientDrawable gd = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[] {0xFFFFAB63,0xFFE85D5A});
+        gd.setCornerRadius(0f);
+
+        layout.setBackground(gd);
 
         list = (ListView) findViewById(R.id.listView);
 
         getCards();
+
+        list.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String test = String.valueOf(parent.getItemAtPosition(position));
+                        emulateCard(test);
+                    }
+                }
+        );
     }
+
+    private void emulateCard(String input) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Place device onto reader until read.");
+////        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+////            public void onClick(DialogInterface dialogInterface, int i) {
+////                return;
+////            }
+////        });
+//        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                return;
+//            }
+//        });
+//        builder.create().show();
+//        return;
+        progress = new ProgressDialog(this);
+        progress.setMax(10);
+        progress.setMessage("Place device on reader...");
+        progress.setTitle("Using card: " + input);
+
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(10000);
+
+                    //Emulation to go here
+                } catch ( Exception e ) {
+                    e.printStackTrace();
+                }
+                progress.dismiss();
+            }
+        }).start();
+
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; go home
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -99,10 +176,9 @@ public class CardActivity extends AppCompatActivity {
         }
 
         if ( !cards.isEmpty() ) {
-            adapter=new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1,
-                    cards);
-            setListAdapter(adapter);
+            //adapter = new ArrayAdapter<String>(this, R.layout.list_text, R.id.list_content, cards);
+            custom = new customAdapter(cards, this);
+            setListAdapter(custom);
         }
 
     }
