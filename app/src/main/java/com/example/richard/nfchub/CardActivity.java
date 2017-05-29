@@ -75,6 +75,7 @@ public class CardActivity extends AppCompatActivity {
 
         list.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String test = String.valueOf(parent.getItemAtPosition(position));
@@ -84,7 +85,8 @@ public class CardActivity extends AppCompatActivity {
         );
     }
 
-    private void emulateCard(String input) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void emulateCard(final String input) {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        builder.setMessage("Place device onto reader until read.");
 ////        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -107,19 +109,23 @@ public class CardActivity extends AppCompatActivity {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.show();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(10000);
-
-                    //Emulation to go here
-                } catch ( Exception e ) {
-                    e.printStackTrace();
-                }
-                progress.dismiss();
-            }
-        }).start();
+        Host h = new Host(input);
+//
+//
+//        new Thread(new Runnable() {
+//            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+//            @Override
+//            public void run() {
+//                try {
+//                    //Thread.sleep(10000);
+//                    //Host h = new Host(input);
+//                    //Emulation to go here
+//                } catch ( Exception e ) {
+//                    e.printStackTrace();
+//                }
+//                progress.dismiss();
+//            }
+//        }).start();
 
     }
 
